@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% block title %}Delete Expense{% endblock %}
+{% block content %}
+<h2>Delete Expense</h2>
+
+<form method="POST">
+    <button type="submit" name="load">Load Expenses</button>
+</form>
+
+{% if expenses %}
+    <hr>
+    <h3>Expenses for User {{ user_id }}</h3>
+    <table border="1" cellpadding="8">
+        <tr>
+            <th>ID</th>
+            <th>Amount</th>
+            <th>Category</th>
+            <th>Date</th>
+            <th>Description</th>
+            <th>Action</th>
+        </tr>
+        {% for e in expenses %}
+        <tr>
+            <td>{{ e[0] }}</td>
+            <td>{{ e[1] }}</td>
+            <td>{{ e[2] }}</td>
+            <td>{{ e[3] }}</td>
+            <td>{{ e[4] }}</td>
+            <td>
+                <form method="POST" style="display:inline;">
+                    <input type="hidden" name="expense_id" value="{{ e[0] }}">
+                    <input type="hidden" name="user_id" value="{{ user_id }}">
+                    <button type="submit" name="delete">Delete</button>
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+{% endif %}
+{% endblock %}

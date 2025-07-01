@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block title %}Delete User{% endblock %}
+{% block content %}
+<h2>Delete User</h2>
+
+<form method="POST">
+    <label>Enter User ID:</label><br>
+    <input type="number" name="user_id" required>
+    <button type="submit" name="load" class="table-action-btn">Load User</button>
+</form>
+
+{% if user %}
+    <hr>
+    <h3>Confirm Deletion</h3>
+    <p><strong>User ID:</strong> {{ user[0] }}</p>
+    <p><strong>Username:</strong> {{ user[1] }}</p>
+    <p><strong>Email:</strong> {{ user[2] }}</p>
+
+    <form method="POST">
+        <input type="hidden" name="user_id" value="{{ user[0] }}">
+        <button type="submit" name="confirm_delete" class="table-action-btn">Confirm Delete</button>
+    </form>
+{% endif %}
+{% endblock %}

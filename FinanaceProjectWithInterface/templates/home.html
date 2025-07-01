@@ -1,0 +1,75 @@
+{% extends "base.html" %}
+{% block title %}Dashboard{% endblock %}
+
+{% block content %}
+<h1>Welcome to Finance Management Application</h1>
+<h2 style="text-align:center;">Finance Dashboard</h2>
+
+<!-- Dashboard Cards -->
+<div class="dashboard-cards">
+    <div class="card">
+        <h4>Total Expenses</h4>
+        <p>₹ {{ total_expenses }}</p>
+    </div>
+</div>
+
+<!-- Charts -->
+<div class="dashboard-charts">
+    <div class="chart-box">
+        <h4>Expenses by Category</h4>
+        <canvas id="categoryChart"></canvas>
+    </div>
+
+    <div class="chart-box">
+        <h4>Monthly Expenses</h4>
+        <canvas id="monthlyChart"></canvas>
+    </div>
+
+</div>
+    <div style="text-align:center; margin-top: 30px;">
+    <a href="{{ url_for('generate_report') }}" class="table-action-btn">Download Expense Report</a>
+</div>
+
+<!-- Chart.js -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    const categoryData = {
+        labels: {{ category_data | map(attribute=0) | list | tojson }},
+        datasets: [{
+            label: 'By Category',
+            data: {{ category_data | map(attribute=1) | list | tojson }},
+            backgroundColor: ['#e63946', '#a8dadc', '#457b9d', '#1d3557', '#f1faee']
+        }]
+    };
+
+    const monthlyData = {
+        labels: {{ monthly_data | map(attribute=0) | list | tojson }},
+        datasets: [{
+            label: 'Monthly',
+            data: {{ monthly_data | map(attribute=1) | list | tojson }},
+            backgroundColor: '#61a5c2'
+        }]
+    };
+
+    new Chart(document.getElementById('categoryChart'), {
+        type: 'pie',
+        data: categoryData,
+        options: {
+            responsive: true,
+            maintainAspectRatio: false
+        }
+    });
+
+    new Chart(document.getElementById('monthlyChart'), {
+        type: 'bar',
+        data: monthlyData,
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+                y: { beginAtZero: true }
+            }
+        }
+    });
+</script>
+{% endblock %}

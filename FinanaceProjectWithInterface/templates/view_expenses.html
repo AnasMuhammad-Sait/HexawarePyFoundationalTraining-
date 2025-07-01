@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block title %}View Expenses{% endblock %}
+{% block content %}
+<h2>View Expenses by User ID</h2>
+
+<form method="POST">
+    <button type="submit">View Expenses</button>
+</form>
+
+{% if expenses %}
+    <h3>Expense List</h3>
+    <table border="1" cellpadding="8">
+        <tr>
+            <th>ID</th>
+            <th>Amount</th>
+            <th>Category ID</th>
+            <th>Date</th>
+            <th>Description</th>
+        </tr>
+        {% for e in expenses %}
+        <tr>
+            <td>{{ e[0] }}</td>
+            <td>{{ e[1] }}</td>
+            <td>{{ e[2] }}</td>
+            <td>{{ e[3] }}</td>
+            <td>{{ e[4] }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+{% endif %}
+{% endblock %}
